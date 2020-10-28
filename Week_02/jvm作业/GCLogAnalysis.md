@@ -440,7 +440,7 @@ $ java -XX:+PrintGC -XX:+PrintGCDateStamps -Xms1g -Xmx1g -XX:+UseConcMarkSweepGC
 执行结束!共生成对象次数:10386
 ```
 
-Xmx调大到1g后，只发生了一次Full GC
+Xmx调大到1g后，没有发生Full GC
 
 ---
 
@@ -775,7 +775,7 @@ $ java -XX:+PrintGC -XX:+PrintGCDateStamps -Xms512m -Xmx512m -XX:+UseG1GC GCLogA
 执行结束!共生成对象次数:8382
 ```
 
-Xmx调大后，没有发生OOM，Full GC间隔越来越短
+Xmx调大后，没有发生OOM，没有发生Full GC，GC频率较高
 
 ---
 
@@ -830,7 +830,7 @@ $ java -XX:+PrintGC -XX:+PrintGCDateStamps -Xms1g -Xmx1g -XX:+UseG1GC GCLogAnaly
 执行结束!共生成对象次数:9484
 ```
 
-Xmx调大到1g后，发生3次Full GC，GC频率明显减少，生成对象数没有显著提升
+Xmx调大到1g后，GC频率明显减少，生成对象数没有显著提升
 
 ---
 
@@ -856,3 +856,22 @@ $ java -XX:+PrintGC -XX:+PrintGCDateStamps -Xms4g -Xmx4g -XX:+UseG1GC GCLogAnaly
 ```
 
 Xmx调大到4g后，没有发生Full GC，GC次数很少，生成对象数提升
+
+---
+
+# 总结
+
+|  | GC | Full Gc次数 | 对象数
+| - | - | - | - |
+| 512m | SerialGC | 1 | 7982 |
+|  | ParallelGC | 6 | 7236 |
+|  | ConcMarkSweepGC | 6 | 9403 |
+|  | G1GC | 0 | 8382 |
+| 1g | SerialGC | 0 | 10402 |
+|  | ParallelGC | 1 | 9551 |
+|  | ConcMarkSweepGC | 0 | 10386 |
+|  | G1GC | 0 | 9484 |
+| 4g | SerialGC | 0 | 11085 |
+|  | ParallelGC | 0 | 11846 |
+|  | ConcMarkSweepGC | 0 | 9357 |
+|  | G1GC | 0 | 10876 |
